@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Vehicle Detection & Counting</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-car"></i> Vehicle Detection & Counting</h1>
+            <p>Upload an image to detect and count vehicles using Roboflow API</p>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Upload Vehicle Image</h3>
+                        <p>Drag & drop or click to select an image</p>
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <button class="btn" id="selectImageBtn">
+                            <i class="fas fa-folder-open"></i> Choose Image
+                        </button>
+                        <div class="file-size-warning" id="fileSizeWarning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Large files may take longer to process
+                        </div>
+                    </div>
+                    
+                    <div class="image-preview" id="imagePreview">
+                        <img id="previewImage" src="" alt="Preview">
+                        <button class="btn-close" id="clearImageBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="controls-section">
+                    <h3><i class="fas fa-sliders-h"></i> Detection Settings</h3>
+                    
+                    <div class="control-group">
+                        <label for="confidenceThreshold">
+                            <i class="fas fa-chart-line"></i> Confidence Threshold
+                            <span id="confidenceValue">0.5</span>
+                        </label>
+                        <input type="range" id="confidenceThreshold" min="0" max="1" step="0.05" value="0.5">
+                        <div class="range-labels">
+                            <span>0 (Low)</span>
+                            <span>0.5</span>
+                            <span>1 (High)</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="overlapThreshold">
+                            <i class="fas fa-object-group"></i> Overlap Threshold
+                            <span id="overlapValue">0.3</span>
+                        </label>
+                        <input type="range" id="overlapThreshold" min="0" max="1" step="0.05" value="0.3">
+                        <div class="range-labels">
+                            <span>0 (Min)</span>
+                            <span>0.5</span>
+                            <span>1 (Max)</span>
+                        </div>
+                    </div>
+
+                    <div class="api-key-group">
+                        <label for="apiKey">
+                            <i class="fas fa-key"></i> API Key
+                        </label>
+                        <div class="input-with-toggle">
+                            <input type="password" id="apiKey" value="j06bCtB2G4wbHBfZTknY">
+                            <button type="button" id="toggleApiKey">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="btn detect-btn" id="detectBtn">
+                        <i class="fas fa-search"></i> Detect Vehicles
+                    </button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="results-section">
+                    <h3><i class="fas fa-chart-bar"></i> Detection Results</h3>
+                    
+                    <div class="results-placeholder" id="resultsPlaceholder">
+                        <i class="fas fa-car-side"></i>
+                        <p>Upload an image and click "Detect Vehicles" to see results</p>
+                    </div>
+
+                    <div class="results-content" id="resultsContent" style="display: none;">
+                        <div class="detection-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="totalVehicles">0</h4>
+                                    <p>Total Vehicles</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="avgConfidence">0%</h4>
+                                    <p>Avg Confidence</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="processingTime">0s</h4>
+                                    <p>Processing Time</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detected-image-container">
+                            <h4>Processed Image <span class="image-size-info" id="imageSizeInfo"></span></h4>
+                            <div class="image-wrapper">
+                                <img id="processedImage" src="" alt="Processed">
+                                <div class="loading-overlay" id="processingLoader">
+                                    <div class="spinner"></div>
+                                    <p>Processing image...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vehicle-breakdown">
+                            <h4>Vehicle Breakdown</h4>
+                            <div class="breakdown-list" id="vehicleBreakdown">
+                                <!-- Vehicle classes will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-info">
+            <p><i class="fas fa-info-circle"></i> Using Roboflow API for vehicle detection and counting</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
